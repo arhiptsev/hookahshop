@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model article {
+  id         Int     @id @default(autoincrement())
+  title      String?
+  content    String?
+  created_at Int?
+  updated_at Int?
+}
+
+model cart {
+  id         Int     @id @default(autoincrement())
+  user_id    Int
+  product_id Int
+  count      Int
+  product    product @relation(fields: [product_id], references: [id])
+  user       user    @relation(fields: [user_id], references: [id])
+}
+
+model category {
+  id               Int                @id @default(autoincrement())
+  name             String?
+  product_category product_category[] @ignore
+}
+
+model order {
+  id         Int          @id @default(autoincrement())
+  user_id    Int
+  created_at BigInt
+  user       user         @relation(fields: [user_id], references: [id])
+  order_item order_item[]
+}
+
+model order_item {
+  id         Int     @id @default(autoincrement())
+  order_id   Int
+  product_id Int
+  count      Int
+  order      order   @relation(fields: [order_id], references: [id])
+  product    product @relation(fields: [product_id], references: [id])
+}
+
+model product {
+  id               Int                @id @default(autoincrement())
+  name             String
+  desc             String?
+  price            Float
+  count            Int
+  cart             cart[]
+  order_item       order_item[]
+  product_category product_category[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model product_category {
+  p_id     Int
+  c_id     Int
+  category category @relation(fields: [c_id], references: [id])
+  product  product  @relation(fields: [p_id], references: [id])
+
+  @@ignore
+}
+
+model user {
+  id         Int     @id @default(autoincrement())
+  username   String  @unique @db.VarChar(255)
+  password   String  @db.VarChar(300)
+  created_at BigInt
+  cart       cart[]
+  order      order[]
+}
