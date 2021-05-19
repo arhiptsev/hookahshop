@@ -1,7 +1,7 @@
 # compiled output
 /dist
 /node_modules
-ormconfig.json
+schema.gql
 # Logs
 logs
 *.log

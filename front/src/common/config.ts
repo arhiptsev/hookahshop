@@ -2,7 +2,7 @@ const isProduction = !(!process.env.NODE_ENV || process.env.NODE_ENV === 'develo
 
 
 const devConfig = {
-    graphQlUrl: process.env['GQL_URL'] || 'http://localhost:3000/graphql'
+    graphQlUrl: process.env['GQL_URL'] || 'http://localhost:4001/graphql'
 };
 
 const prodConfig = {

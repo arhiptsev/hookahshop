@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Table } from 'react-bootstrap';
-import './OrderView.scss';
 
 export  const OrderView =  ({ orders, deleteOrder }) => (
     <Table striped bordered hover>

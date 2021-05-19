@@ -1,39 +1,35 @@
+import { cart } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
-import { Cart } from '../entities/cart.entity';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CartService {
 
   constructor(
-    @InjectRepository(Cart) public cartRepository: Repository<Cart>
+    private prisma: PrismaService
   ) { }
 
-
-  getById(id: number): Promise<Cart> {
-    return this.cartRepository.findOne(id, {
-      relations: ['product']
-    });
+  findAll(): Promise<cart[]> {
+    return this.prisma.cart.findMany();
   }
 
-  getCard(userId: number): Promise<Cart[]> {
-    return this.cartRepository.find({
+  findBy(where: { [key: string]: any }): Promise<cart[]> {
+    return this.prisma.cart.findMany({ where });
+  }
+  
+  findById(id: number): Promise<cart> {
+    return this.prisma.cart.findUnique({
       where: {
-        user_id: userId,
-      },
-      relations: ['product']
+        id
+      }
     });
   }
 
-  addToCart(data: Omit<Cart, 'id' | 'product'>): Promise<Cart> {
-    return this.cartRepository.save(data);
+  create(data: Omit<cart, 'id'>): Promise<cart> {
+    return this.prisma.cart.create({ data });
   }
 
-
-  removeFromCart(id: number): Promise<DeleteResult> {
-    return this.cartRepository.delete(id);
+  delete(id: number): Promise<cart> {
+    return this.prisma.cart.delete({ where: { id } })
   }
-
-
 }

@@ -1,40 +1,24 @@
-import React, { Component } from 'react';
-import './RegDialog.scss';
-import Axios from "axios";
+import React from 'react';
 import RegForm from "./reg-form/RegForm";
 import { Card } from 'react-bootstrap';
-import Config from '../../../common/config';
+import { useMutation } from '@apollo/client';
 
-export default class RegDialog extends Component<any, any> {
+import { REGISRATION } from '../../../graphql/user';
 
-    public registration({ username, password }): void {
-        Axios.post(
-            Config.graphQlUrl,
-            {
-                query: `
-                {
-                    registration (username: "${username}", password: "${password}") {
-                        isSuccess
-                    }
-                }
-                `
-            }
-        ).then(res => {
-        });
-    }
+export const RegDialog = () => {
+  const [registration, { data }] = useMutation(REGISRATION);
 
+  const registrate = ({ username, password }) => registration({ variables: { username, password } });
 
-    render() {
-        return (
-            <Card>
-                <Card.Body>
-                    <Card.Title>Регистрация</Card.Title>
-                    <Card.Body>
-                        <RegForm onSubmit={this.registration.bind(this)}></RegForm>
-                    </Card.Body>
-                </Card.Body>
-            </Card>
-        )
-    };
+  return (
+    <Card>
+      <Card.Body>
+        <Card.Title>Регистрация</Card.Title>
+        <Card.Body>
+          <RegForm onSubmit={registrate}></RegForm>
+        </Card.Body>
+      </Card.Body>
+    </Card>
+  );
 }
 

@@ -1,9 +1,9 @@
 import Axios from "axios";
-import {getCurrentUser} from '../index'
+import { getCurrentUser } from "./utils/getCurrentUser";
 export const AxiosInstance = Axios.create();
 AxiosInstance.interceptors.request.use(async config => {
     const user = getCurrentUser();
-    if (user){
+    if (user) {
         config.headers = {
             Authorization: `Bearer ${user.access_token}`,
         }

@@ -1,10 +1,8 @@
 import { Modal } from "react-bootstrap";
 import React, { useState } from 'react';
-import './AuthRegDialog.scss';
-import AuthRegTabs from "../AuthRegTabs/AuthRegTabs";
+import { AuthRegTabs } from "../AuthRegTabs/AuthRegTabs";
 
-export default function AuthRegDialog({ onShow }) {
-
+export const AuthRegDialog = ({ onShow }) =>  {
     onShow(() => handleShow())
 
     const [show, setShow] = useState(false);

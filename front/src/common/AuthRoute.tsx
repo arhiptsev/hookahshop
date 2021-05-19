@@ -1,10 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
+import { RxContext } from '../context/rx-context';
+import { useObservable } from '../utils/hooks/useObservable';
 
+export const AuthRoute = ({ component: Component, ...rest }) => {
+    const { currentUserObservable } = useContext(RxContext);
+    const isAuth = useObservable(currentUserObservable);
 
-const AuthRoute = ({ isAuth, component: Component, ...rest }) =>
-    (
+    return (
         <Route
             {...rest}
             render={props => !isAuth
@@ -13,7 +16,5 @@ const AuthRoute = ({ isAuth, component: Component, ...rest }) =>
             }
         />
     );
+}
 
-export default connect<any, any, any, any>(
-    store => ({ isAuth: Boolean(store.currentUser) })
-)(AuthRoute)
