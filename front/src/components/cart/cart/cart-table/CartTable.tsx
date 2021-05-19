@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Button, Table } from 'react-bootstrap';
-import './CartTable.scss';
+import { CartActions } from './styled';
 
 export const CartItems = ({ cartItems, removeFromCart, createOrder }) => (
     <Fragment>
@@ -26,9 +26,9 @@ export const CartItems = ({ cartItems, removeFromCart, createOrder }) => (
             </tbody>
         </Table>
 
-        <div className="cart-actions">
+        <CartActions className="cart-actions">
             <Button variant="primary" onClick={createOrder}>Создать заказ</Button>
-        </div>
+        </CartActions>
 
     </Fragment>
 );

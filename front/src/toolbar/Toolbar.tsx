@@ -1,8 +1,8 @@
 import React, { Component, ReactNode } from 'react';
 import { Button, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import AuthRender from '../common/AuthRender';
-import UserButton from '../components/Authentification/userButton/UserButton';
+import { AuthRender } from '../common/AuthRender';
+import { UserButton } from '../components/Authentification/userButton/UserButton';
 import CartButton from '../components/cart/CartButton';
 import './Toolbar.scss';
 
@@ -40,7 +40,7 @@ export class Toolbar extends Component<ToolbarProps> {
       </Navbar>
     )
   }
- 
+
 
 }
 

@@ -1,20 +1,23 @@
 import { Button } from "react-bootstrap";
-import React from 'react';
+import React, { useContext } from 'react';
 import './UserButton.scss';
-import { connect } from "react-redux";
-import { getLogoutAction } from "./actions";
-import AuthRegDialog from "../AuthRegDialog/AuthRegDialog";
+import { AuthRegDialog } from "../AuthRegDialog/AuthRegDialog";
+import { RxContext } from "../../../context/rx-context";
+import { useObservable } from "../../../utils/hooks/useObservable";
 
+export const UserButton = () => {
+    const { currentUserObservable } = useContext(RxContext);
+    const currentUser = useObservable(currentUserObservable);
 
-function UserButton({ currentUser, logout }) {
-
-
-
-    let showDialog: () => void;
-    function onAuth(fn: () => void) {
-        showDialog = fn;
+    const logout = () => {
+        localStorage.removeItem('currentUser');
+        currentUserObservable.next(null);
     }
 
+  let showDialog: () => void;
+    function onAuth(fn: () => void) {
+        showDialog = fn;
+    }  
 
     return currentUser ?
         (
@@ -34,10 +37,5 @@ function UserButton({ currentUser, logout }) {
         );
 }
 
-export default connect<any, any, any>(
-    (store: any) => ({ currentUser: store.currentUser }),
-    (dispatch: any) => ({
-        logout: () => dispatch(getLogoutAction())
-    })
-)(UserButton)
+
 

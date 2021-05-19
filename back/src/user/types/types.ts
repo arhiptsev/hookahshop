@@ -1,15 +1,28 @@
-import { OrderItem } from "../entities/order-item.entity";
-import { Order } from "../entities/order.entity";
+import { Field, InputType, Int, ObjectType } from "@nestjs/graphql";
+import { OrderItem } from "../models/order-item";
 
-export interface SignInResponse {
+@ObjectType()
+export class SignInResponse {
+    @Field()
     access_token: string;
 }
 
-export interface RegistrationResponse {
-    isSuccess: Boolean
+@ObjectType()
+export class RegistrationResponse {
+    @Field(() => Boolean)
+    isSuccess: boolean;
 }
 
-export interface OrderInputData extends Pick<Order, 'user_id' | 'created_at'> {
-    items: Pick<OrderItem, 'product_id' | 'count'>[];
+@InputType()
+export class OrderInput {
+    @Field(() => Int)
+    user_id: number;
+
+    @Field(() => Int)
+    created_at: number;
+
+
+    @Field(() => [OrderItem])
+    items: OrderItem[];
 };
 

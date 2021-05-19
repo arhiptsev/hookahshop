@@ -1,87 +1,51 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import BlockOverlay from '../../../common/BlockUi';
 import { NotificationsServies } from '../../../common/notifications/notifications.service';
+import { CREATE_ORDER, GET_CART, REMOVE_FROM_CART } from '../../../graphql/cart';
+import { GET_ORDERS } from '../../../graphql/orders';
 import { CartItems } from './cart-table/CartTable';
-import './Cart.scss';
+import { CartContainer } from './styled';
 
-const CREATE_ORDER = gql`
-  mutation createOrderFromCart { 
-            createOrderFromCart {
-                id
-            }
-  }
-`;
+export const Cart = () => {
+  const notificatons = NotificationsServies.getInstance();
 
-const REMOVE_FROM_CART = gql`
-  mutation removeFromCart($id: Int) { 
-    removeFromCart(id: $id){
-        isSuccess
-  }
-  }
-`;
+  const [removeFromCartMutation, { loading: removing }] = useMutation(REMOVE_FROM_CART, {
+    onCompleted: () => notificatons.addSuccess(
+      'Товар успешно удален из корзины :)'
+    ),
+    onError: () => notificatons.addError('Ошибка при удалении товара.'),
+    refetchQueries: [{ query: GET_CART }]
+  });
 
-const GET_CART = gql`
-  query getCart {
-    cart {
-        id,
-        count,
-        product {
-            id,
-            name,
-            price,
-            }
-        }
-  }
-`;
+  const [createOrder, { loading: creating }] = useMutation(CREATE_ORDER, {
+    onCompleted: () => notificatons.addSuccess(
+      'Заказ успешно создан!'
+    ),
+    onError: () => notificatons.addError('Ошибка при создании заказа.'),
+    refetchQueries: [{ query: GET_ORDERS }]
+  });
 
 
-const Cart = () => {
+  const removeFromCart = (id: Number) => removeFromCartMutation({
+    variables: {
+      id: id
+    }
+  });
 
-    const notificatons = NotificationsServies.getInstance();
+  const { loading, data } = useQuery(GET_CART);
 
-    const [removeFromCartMutation, { loading: removing }] = useMutation(REMOVE_FROM_CART, {
-        onCompleted: () => notificatons.addSuccess(
-            'Товар успешно удален из корзины :)'
-        ),
-        onError: () => notificatons.addError('Ошибка при удалении товара.')
-    });
-    const [createOrder, { loading: creating }] = useMutation(CREATE_ORDER, {
-        onCompleted: () => notificatons.addSuccess(
-            'Заказ успешно создан!'
-        ),
-        onError: () => notificatons.addError('Ошибка при создании заказа.')
-    });
+  const overlay = removing || creating || loading;
 
-
-    const removeFromCart = (id: Number) => removeFromCartMutation({
-        variables: {
-            id: id
-        },
-        refetchQueries: [
-            {
-                query: GET_CART
-            }
-        ],
-    });
-
-    const { loading, data } = useQuery(GET_CART);
-
-    const overlay = removing || creating || loading;
-
-
-    return (
-        <BlockOverlay blocked={overlay}>
-            <div className="cart-container">
-                <CartItems
-                    cartItems={(data && data.cart) || []}
-                    removeFromCart={removeFromCart}
-                    createOrder={createOrder}
-                />
-            </div>
-        </BlockOverlay>
-    );
+  return (
+    <BlockOverlay blocked={overlay}>
+      <CartContainer>
+        <CartItems
+          cartItems={(data && data.cart) || []}
+          removeFromCart={removeFromCart}
+          createOrder={createOrder}
+        />
+      </CartContainer>
+    </BlockOverlay>
+  );
 }
-
-export default Cart;
-

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Observable } from 'rxjs';
 
-export const useObservable = <T>(observable: Observable<T>) => {
+export const useObservable = <T = any>(observable: Observable<T>) => {
 
   const [state, setState] = useState<T>();
 
