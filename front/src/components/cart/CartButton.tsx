@@ -1,10 +1,15 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
+const CartButton = ({ ...props }) => {
+  const history = useHistory();
 
-const CartButton = ({ className }) => (
-    <Button variant="primary" as={Link} to="/cart" className={className}>Корзина</Button>
-);
+  return (
+    <Button variant="primary" onClick={() => history.push('/cart')} {...props}>
+      Корзина
+    </Button>
+  );
+};
 
 export default CartButton;

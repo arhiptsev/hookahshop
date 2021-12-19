@@ -2,12 +2,12 @@ import React, { useContext } from 'react';
 import { AuthForm } from "./auth-form/AuthForm";
 import { Card } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
-import { NotificationsServies } from '../../../common/notifications/notifications.service';
+import { NotificationsService } from '../../../common/notifications/notifications.service';
 import { LOGIN } from '../../../graphql/user';
 import { RxContext } from '../../../context/rx-context';
 
 export const AuthDialog = () => {
-  const notifications = NotificationsServies.getInstance();
+  const notifications = NotificationsService.getInstance();
 
   const { currentUserObservable } = useContext(RxContext)
 

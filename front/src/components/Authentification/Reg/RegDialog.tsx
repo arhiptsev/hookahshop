@@ -1,14 +1,25 @@
 import React from 'react';
-import RegForm from "./reg-form/RegForm";
+import { RegForm } from './reg-form/RegForm';
 import { Card } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 
 import { REGISRATION } from '../../../graphql/user';
+import { NotificationsService } from '../../../common/notifications/notifications.service';
 
 export const RegDialog = () => {
-  const [registration, { data }] = useMutation(REGISRATION);
+  const notifications = NotificationsService.getInstance();
 
-  const registrate = ({ username, password }) => registration({ variables: { username, password } });
+  const [registration, { data, loading }] = useMutation(REGISRATION, {
+    onCompleted() {
+      notifications.addSuccess('Вы успешно зарегистрированы');
+    },
+    onError() {
+      notifications.addError('Ошибка регистрации');
+    },
+  });
+
+  const registrate = ({ username, password }) =>
+    registration({ variables: { username, password } });
 
   return (
     <Card>
@@ -20,5 +31,4 @@ export const RegDialog = () => {
       </Card.Body>
     </Card>
   );
-}
-
+};

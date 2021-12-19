@@ -6,3 +6,5 @@ export const ProductGrid = styled.div`
   column-gap: 15px;
   row-gap: 15px;
 `;
+
+export const Container = styled.div``;

@@ -1,14 +1,14 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import BlockOverlay from '../../../common/BlockUi';
-import { NotificationsServies } from '../../../common/notifications/notifications.service';
+import { NotificationsService } from '../../../common/notifications/notifications.service';
 import { CREATE_ORDER, GET_CART, REMOVE_FROM_CART } from '../../../graphql/cart';
 import { GET_ORDERS } from '../../../graphql/orders';
 import { CartItems } from './cart-table/CartTable';
 import { CartContainer } from './styled';
 
 export const Cart = () => {
-  const notificatons = NotificationsServies.getInstance();
+  const notificatons = NotificationsService.getInstance();
 
   const [removeFromCartMutation, { loading: removing }] = useMutation(REMOVE_FROM_CART, {
     onCompleted: () => notificatons.addSuccess(

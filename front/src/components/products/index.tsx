@@ -1,13 +1,15 @@
-import { useQuery } from '@apollo/client';
 import React, { useContext } from 'react';
 import { RxContext } from '../../context/rx-context';
-import { GET_All_PRODUCTS } from '../../graphql/products';
+
 import { useObservable } from '../../utils/hooks/useObservable';
+import { useGetProductsWithSubsription } from './hooks';
 
 import { ProductsView } from './ProductsView';
+import { Container } from './styled';
 
 export const Products = () => {
-  const { data } = useQuery(GET_All_PRODUCTS);
+  const { data } = useGetProductsWithSubsription();
+
   const { currentUserObservable } = useContext(RxContext);
   const currentUser = useObservable(currentUserObservable);
 
@@ -16,9 +18,8 @@ export const Products = () => {
   const { products } = data;
 
   return (
-    <ProductsView
-      cartEnable={Boolean(currentUser)}
-      products={products}
-    ></ProductsView>
+    <Container>
+      <ProductsView cartEnable={Boolean(currentUser)} products={products} />
+    </Container>
   );
 };

@@ -2,11 +2,11 @@ import { BehaviorSubject } from 'rxjs';
 import { Notification } from './types';
 
 
-export class NotificationsServies {
+export class NotificationsService {
     static instance;
-    public static getInstance(): NotificationsServies {
+    public static getInstance(): NotificationsService {
         if (!this.instance) {
-            this.instance = new NotificationsServies();
+            this.instance = new NotificationsService();
         }
         return this.instance;
     }

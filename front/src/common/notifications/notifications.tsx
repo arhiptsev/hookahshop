@@ -1,11 +1,11 @@
 import React from 'react';
 import { Alert, AlertContainer } from "react-bs-notifier";
 import { useObservable } from '../../utils/hooks/useObservable';
-import { NotificationsServies } from './notifications.service';
+import { NotificationsService } from './notifications.service';
 
 export const Notifications = () => {
 
-    const notifications = useObservable(NotificationsServies.getInstance().notifications$) || [];
+    const notifications = useObservable(NotificationsService.getInstance().notifications$) || [];
 
     return (
         <AlertContainer

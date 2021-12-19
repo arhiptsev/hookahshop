@@ -1,6 +1,6 @@
 import { FetchResult } from "@apollo/client";
 import { isString } from "lodash";
-import { NotificationsServies } from "../common/notifications/notifications.service";
+import { NotificationsService } from "../common/notifications/notifications.service";
 import { Notification } from "../common/notifications/types";
 
 export type NotifyContent = string | Omit<Notification, 'type'>;
@@ -11,7 +11,7 @@ export const fetchNotifyHandler = (success: NotifyContent, error: NotifyContent)
     const errorArgs = isString(error) ? [error] : [error.content, error.header];
 
     return (res: FetchResult) => {
-        const notifySerivce = NotificationsServies.getInstance();
+        const notifySerivce = NotificationsService.getInstance();
 
         if (res.errors) {
             notifySerivce.addError(...errorArgs);
