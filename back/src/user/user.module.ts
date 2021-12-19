@@ -18,28 +18,29 @@ import { UserService } from './services/user.service';
 import { UserResolver } from './user.resolver';
 
 @Module({
-    providers: [
-        PrismaService,
-        UserService,
-        AuthService,
-        JwtStrategy,
-        AuthResolver,
-        UserResolver,
-        PasswordService,
-        GqlAuthGuard,
-        CartResolver,
-        OrderResolver,
-        OrderService,
-        CartService,
-        ProductsService,
-        OrderItemService
-    ],
-    imports: [
-        PrismaModule,
-        JwtModule.register({
-            secret: 'd7g7fN8Cf3Un33bf',
-            signOptions: { expiresIn: '7d' },
-        }),
-    ],
+  providers: [
+    PrismaService,
+    UserService,
+    AuthService,
+    JwtStrategy,
+    AuthResolver,
+    UserResolver,
+    PasswordService,
+    GqlAuthGuard,
+    CartResolver,
+    OrderResolver,
+    OrderService,
+    CartService,
+    ProductsService,
+    OrderItemService,
+  ],
+  imports: [
+    PrismaModule,
+    JwtModule.register({
+      secret: 'd7g7fN8Cf3Un33bf',
+      signOptions: { expiresIn: '7d' },
+    }),
+  ],
+  exports: [AuthService],
 })
-export class UserModule { }
+export class UserModule {}
