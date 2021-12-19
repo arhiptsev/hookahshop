@@ -8,18 +8,25 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ProductsModule } from './products/products.module';
 import { DatasourceModule } from './datasource/datasource.module';
 
-
 @Module({
   imports: [
     PrismaModule,
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
       context: ({ req }) => ({ req }),
-      playground: true
+      playground: true,
+      definitions: {
+        path: join(process.cwd(), 'src/graphql.ts'),
+      },
+      subscriptions: {
+        'subscriptions-transport-ws': {
+          path: '/graphql',
+        },
+      },
     }),
     UserModule,
     ProductsModule,
-    DatasourceModule
+    DatasourceModule,
   ],
   controllers: [AppController],
   providers: [
@@ -27,4 +34,4 @@ import { DatasourceModule } from './datasource/datasource.module';
     // AppResolver,
   ],
 })
-export class AppModule { }
+export class AppModule {}
