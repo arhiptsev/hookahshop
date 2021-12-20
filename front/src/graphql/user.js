@@ -9,9 +9,15 @@ export const REGISRATION = gql`
 `;
 
 export const LOGIN = gql`
-  mutation login($username: String!, $password: String!){
-    login (username: $username, password: $password) {
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       access_token
     }
+  }
+`;
+
+export const IS_USER_EXISTING_QUERY = gql`
+  query isUserExisting($username: String!) {
+    isUserExisting(username: $username)
   }
 `;

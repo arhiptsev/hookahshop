@@ -1,45 +1,29 @@
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import React from 'react';
 import { Formik } from 'formik';
-import { LoginButton } from './styled';
+import { FieldContainer } from './styled';
+import { TextField } from '../../../forms/uncontrols';
+
+const INITIAL_VALUES = {
+  username: '',
+  password: '',
+};
 
 export const AuthForm = ({ onSubmit }) => (
   <div>
-    <Formik
-      initialValues={{
-        username: '',
-        password: '',
-      }}
-      onSubmit={onSubmit}
-    >
-      {({ handleSubmit, handleChange, values }) => {
+    <Formik initialValues={INITIAL_VALUES} onSubmit={onSubmit}>
+      {({ handleSubmit }) => {
         return (
           <Form onSubmit={handleSubmit as any}>
-            <Form.Label>Имя пользователя</Form.Label>
-            <Form.Control
-              type="text"
-              value={values.username}
-              onChange={handleChange}
-              placeholder="Имя пользователя"
-              id="username"
-              name="username"
-            />
-            <Form.Label>Пароль</Form.Label>
-            <Form.Control
-              id="password"
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-              type="password"
-              placeholder="Пароль"
-            />
-            <LoginButton
-              variant="primary"
-              type="submit"
-              className="login-button"
-            >
+            <FieldContainer>
+              <TextField label="Имя пользователя" name="username" />
+            </FieldContainer>
+            <FieldContainer>
+              <TextField label="Пароль" name="password" />
+            </FieldContainer>
+            <Button variant="primary" type="submit" className="login-button">
               Войти
-            </LoginButton>
+            </Button>
           </Form>
         );
       }}

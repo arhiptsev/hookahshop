@@ -8,14 +8,22 @@ import { Container } from './styled';
 import { DELETE_PRODUCT_MUTATION, GET_All_PRODUCTS } from '../../graphql';
 import { useMutation } from '@apollo/client';
 import BlockOverlay from '../../common/BlockUi';
+import { useNotifications } from '../../common/hooks';
 
 export const ManageProducts = () => {
   const { data } = useGetProductsWithSubsription();
+  const notifications = useNotifications();
 
   const [deleteProduct, { loading: deleting }] = useMutation(
     DELETE_PRODUCT_MUTATION,
     {
       refetchQueries: [{ query: GET_All_PRODUCTS }],
+      onCompleted: () => {
+        notifications.addSuccess('Товар успешно удален');
+      },
+      onError: () => {
+        notifications.addError('Ошибка удаления товара');
+      },
     }
   );
 
