@@ -70,6 +70,7 @@ export interface Category {
 }
 
 export interface IQuery {
+    isUserExisting(username: string): boolean | Promise<boolean>;
     cart(): Cart[] | Promise<Cart[]>;
     orders(): Order[] | Promise<Order[]>;
     order(id: number): Order | Promise<Order>;
