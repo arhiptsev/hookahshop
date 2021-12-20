@@ -10,7 +10,7 @@ import { NotificationsService } from '../../../common/notifications/notification
 import { CREATE_PRODUCT_MUTATION, GET_All_PRODUCTS } from '../../../graphql';
 import { TextField } from '../../forms/controls';
 import { ContainerStyled, DescriptionField, RowStyled } from './styled';
-import { СreateProductForm } from './СreateProductForm';
+import { CreateProductForm } from './CreateProductForm';
 interface СreateProductProps {
   show: boolean;
   handleClose: () => void;
@@ -61,7 +61,7 @@ export const СreateProduct = ({ show, handleClose }: СreateProductProps) => {
 
   return (
     <Modal show={show} onHide={handleClose} size="lg">
-      <СreateProductForm
+      <CreateProductForm
         initialValues={INITIAL_VALUES}
         onSubmit={onSubmit}
         validate={productValidation}
