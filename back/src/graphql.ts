@@ -12,6 +12,7 @@ export interface ProductInput {
     desc?: Nullable<string>;
     price: number;
     count: number;
+    categories?: Nullable<number[]>;
 }
 
 export interface Product {
@@ -89,6 +90,7 @@ export interface IMutation {
     removeOrder(id: number): boolean | Promise<boolean>;
     createProduct(payload: ProductInput): Product | Promise<Product>;
     deleteProduct(id: number): Product | Promise<Product>;
+    createCategory(name: string): Category | Promise<Category>;
 }
 
 export interface ISubscription {

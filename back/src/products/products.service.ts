@@ -23,10 +23,20 @@ export class ProductsService {
     });
   }
 
-  async create(data: Omit<product, 'id'>): Promise<product> {
+  async create({
+    categories = [],
+    ...data
+  }: Omit<product, 'id'> & { categories?: number[] }): Promise<product> {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    return this.prisma.product.create({ data });
+    return this.prisma.product.create({
+      data: {
+        ...data,
+        product_category: {
+          createMany: { data: categories.map(c_id => ({ c_id })) },
+        },
+      },
+    });
   }
 
   async delete(id: number): Promise<product> {

@@ -4,24 +4,25 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CategoryService {
+  constructor(public prisma: PrismaService) {}
 
-    constructor(
-        public prisma: PrismaService
-    ) { }
+  findAll(): Promise<category[]> {
+    return this.prisma.category.findMany();
+  }
 
-    findAll(): Promise<category[]> {
-        return this.prisma.category.findMany();
-    }
+  findBy(where: { [key: string]: any }): Promise<category[]> {
+    return this.prisma.category.findMany({ where });
+  }
 
-    findBy(where: { [key: string]: any }): Promise<category[]> {
-        return this.prisma.category.findMany({ where });
-    }
+  findById(id: number): Promise<category> {
+    return this.prisma.category.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
 
-    findById(id: number): Promise<category> {
-        return this.prisma.category.findUnique({
-            where: {
-                id
-            }
-        });
-    }
+  create(data: Omit<category, 'id'>): Promise<category> {
+    return this.prisma.category.create({ data });
+  }
 }

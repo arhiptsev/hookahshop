@@ -28,7 +28,7 @@ model cart {
 model category {
   id               Int                @id @default(autoincrement())
   name             String?
-  product_category product_category[] @ignore
+  product_category product_category[]
 }
 
 model order {
@@ -56,17 +56,16 @@ model product {
   count            Int
   cart             cart[]
   order_item       order_item[]
-  product_category product_category[] @ignore
+  product_category product_category[]
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model product_category {
+  id       Int      @id @default(autoincrement())
   p_id     Int
   c_id     Int
   category category @relation(fields: [c_id], references: [id])
   product  product  @relation(fields: [p_id], references: [id])
-
-  @@ignore
 }
 
 model user {

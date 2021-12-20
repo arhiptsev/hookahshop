@@ -71,6 +71,7 @@ export class ProductsResolver {
 
   private async emitUpdateProducts(): Promise<void> {
     const products = await this.productsService.findAll();
+    
     pubSub.publish('productsUpdated', { productsUpdated: products });
   }
 }
