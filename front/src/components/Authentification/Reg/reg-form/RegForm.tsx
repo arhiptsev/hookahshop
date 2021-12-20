@@ -31,7 +31,7 @@ const getUsernameValidator = (
   if (username?.length < 3)
     return 'Имя пользовтеля должно соодержать не менее трех символов';
 
-  apolloClient
+  return apolloClient
     .query<{ isUserExisting: boolean }>({
       query: IS_USER_EXISTING_QUERY,
       variables: { username },

@@ -10,7 +10,4 @@ export const Actions = styled.div`
   justify-content: flex-end;
 `;
 
-export const TableStyled = styled(Table)`
-  max-height: 400px;
-  overflow-y: scroll;
-`;
+export const TableStyled = styled(Table)``;

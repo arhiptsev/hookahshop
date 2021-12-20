@@ -22,17 +22,6 @@ export const TextField = ({
   ...props
 }: TextFieldProps) => {
   const [field, meta, helpers] = useField({ name, validate });
-  // return (
-  //   <>
-  //     <label>
-  //       {label}
-  //       <input {...field} {...props} />
-  //     </label>
-  //     {meta.touched && meta.error ? (
-  //       <div className="error">{meta.error}</div>
-  //     ) : null}
-  //   </>
-  // );
 
   return (
     <TextFieldControl
