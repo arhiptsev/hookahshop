@@ -1,26 +1,24 @@
-import { useMutation } from '@apollo/client';
-import { Formik } from 'formik';
+import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
-import { Button, Col, Form, Modal } from 'react-bootstrap';
-import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
-import { createPropertyAccessChain } from 'typescript';
-import BlockOverlay from '../../../common/BlockUi';
+import { Modal } from 'react-bootstrap';
 import { useNotifications } from '../../../common/hooks';
-import { NotificationsService } from '../../../common/notifications/notifications.service';
-import { CREATE_PRODUCT_MUTATION, GET_All_PRODUCTS } from '../../../graphql';
-import { TextField } from '../../forms/controls';
-import { ContainerStyled, DescriptionField, RowStyled } from './styled';
-import { CreateProductForm } from './CreateProductForm';
+import {
+  CREATE_PRODUCT_MUTATION,
+  GET_All_PRODUCTS,
+  GET_CAREGORIES_QUERY,
+} from '../../../graphql';
+import { CreateProductForm, FormValues } from './CreateProductForm';
 interface СreateProductProps {
   show: boolean;
   handleClose: () => void;
 }
 
-const INITIAL_VALUES = {
+const INITIAL_VALUES: FormValues = {
   name: '',
   desc: '',
   price: undefined,
   count: undefined,
+  categories: [],
 };
 
 const productValidation = (
@@ -45,18 +43,30 @@ const productValidation = (
 export const СreateProduct = ({ show, handleClose }: СreateProductProps) => {
   const notifications = useNotifications();
 
-  const [createProduct, { loading }] = useMutation(CREATE_PRODUCT_MUTATION, {
-    refetchQueries: [{ query: GET_All_PRODUCTS }],
-    onCompleted: () => {
-      notifications.addSuccess('Товар успешно создан');
-    },
-    onError: () => {
-      notifications.addError('Ошибка создания товара');
-    },
-  });
+  const [createProduct, { loading: creating }] = useMutation(
+    CREATE_PRODUCT_MUTATION,
+    {
+      refetchQueries: [{ query: GET_All_PRODUCTS }],
+      onCompleted: () => {
+        notifications.addSuccess('Товар успешно создан');
+      },
+      onError: () => {
+        notifications.addError('Ошибка создания товара');
+      },
+    }
+  );
 
-  const onSubmit = (payload) => {
-    createProduct({ variables: { payload } });
+  const { data } = useQuery(GET_CAREGORIES_QUERY);
+
+  const onSubmit = ({ categories, ...data }: typeof INITIAL_VALUES) => {
+    createProduct({
+      variables: {
+        payload: {
+          ...data,
+          categories: categories?.map((id) => Number.parseInt(id)) || [],
+        },
+      },
+    });
   };
 
   return (
@@ -65,7 +75,8 @@ export const СreateProduct = ({ show, handleClose }: СreateProductProps) => {
         initialValues={INITIAL_VALUES}
         onSubmit={onSubmit}
         validate={productValidation}
-        submiting={loading}
+        submiting={creating}
+        categories={data?.categories || []}
       />
     </Modal>
   );

@@ -8,7 +8,7 @@ export const ADD_TO_CART_QUERY = gql`
   }
 `;
 
-export const GET_CAREGORY = gql`
+export const GET_CAREGORY_WITH_PRODUCTS = gql`
   query category($id: Float!) {
     category(id: $id) {
       products {
@@ -18,6 +18,24 @@ export const GET_CAREGORY = gql`
         price
         count
       }
+    }
+  }
+`;
+
+export const GET_CAREGORY = gql`
+  query category($id: Float!) {
+    category(id: $id) {
+      id
+      name
+    }
+  }
+`;
+
+export const GET_CAREGORIES_QUERY = gql`
+  query categories {
+    categories {
+      id
+      name
     }
   }
 `;

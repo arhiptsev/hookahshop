@@ -7,7 +7,7 @@ import { ManageProducts } from '../components/ManageProducts';
 import { Orders } from '../components/order/orders/Orders';
 import { Products } from '../components/products';
 import { Category } from '../components/products/Category';
-import Categories from './Categories/Categories';
+import { Categories } from './Categories';
 import { Container, Content, Sidebar } from './styled';
 
 export const Main = ({ sidebar }) => {

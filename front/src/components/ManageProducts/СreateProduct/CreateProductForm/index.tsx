@@ -2,14 +2,16 @@ import { Formik } from 'formik';
 import React from 'react';
 import { Button, Col, Form, Modal } from 'react-bootstrap';
 import BlockOverlay from '../../../../common/BlockUi';
-import { TextField } from '../../../forms/uncontrols';
+import { Category } from '../../../../types/categoties';
+import { TextField, Checkbox } from '../../../forms/uncontrols';
 import { ContainerStyled, RowStyled } from './styled';
 
-interface FormValues {
+export interface FormValues {
   name?: string;
   desc?: string;
   price?: number;
   count?: number;
+  categories?: string[];
 }
 
 interface СreateProductFormProps {
@@ -19,6 +21,7 @@ interface СreateProductFormProps {
   initialValues: FormValues;
   submiting: boolean;
   onSubmit: (values: FormValues) => void | Promise<any>;
+  categories: Category[];
 }
 
 export const CreateProductForm = ({
@@ -26,6 +29,7 @@ export const CreateProductForm = ({
   onSubmit,
   initialValues,
   submiting,
+  categories,
 }: СreateProductFormProps) => (
   <Formik initialValues={initialValues} onSubmit={onSubmit} validate={validate}>
     {({ handleSubmit }) => (
@@ -44,6 +48,13 @@ export const CreateProductForm = ({
               <RowStyled>
                 <Col>
                   <TextField as="textarea" label="Описание" name="desc" />
+                </Col>
+              </RowStyled>
+              <RowStyled>
+                <Col>
+                  {categories.map(({ id, name }) => (
+                    <Checkbox label={name} name="categories" value={id} />
+                  ))}
                 </Col>
               </RowStyled>
               <RowStyled>

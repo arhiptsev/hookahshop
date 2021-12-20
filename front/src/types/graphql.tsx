@@ -1,3 +1,4 @@
 export interface GraphQlResponse<T = any> {
-    data: T
+  data: T;
 }
+
